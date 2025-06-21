@@ -8,7 +8,7 @@ export default function Home() {
 
   const scan = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:8000/scan", {
+    const res = await fetch("https://enten-0vnu.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
