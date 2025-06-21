@@ -8,7 +8,7 @@ export default function Home() {
 
   const scan = async () => {
     setLoading(true);
-    const res = await fetch("https://enten-0vnu.onrender.com", {
+    const res = await fetch("https://enten-0vnu.onrender.com/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
@@ -19,7 +19,7 @@ export default function Home() {
   };
 
   const fix = async () => {
-    const res = await fetch("http://localhost:8000/fix", {
+    const res = await fetch("https://enten-0vnu.onrender.com/fix", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
