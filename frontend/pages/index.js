@@ -27,19 +27,19 @@ export default function Home() {
   const showVulnInfo = (issue) => {
     let message = "";
     if (issue.includes("not pinned")) {
-      message = "If an action isn't pinned to a commit SHA, an attacker can update the tag to malicious code.";
+      message = "Without pinning to a specific commit, malicious updates to the action can compromise your CI/CD pipeline.";
     } else if (issue.includes("curl")) {
-      message = "Downloading scripts with curl without verifying checksum can lead to remote code execution.";
+      message = "Using curl without checksum validation allows attackers to inject malicious scripts.";
     }
     setVulnInfo(message);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col justify-center items-center px-4">
-      <h1 className="text-4xl font-bold mb-6">EntenCI</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-950 via-black to-indigo-900 text-white flex flex-col justify-center items-center px-4 font-sans">
+      <h1 className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">EntenCI Auditor</h1>
 
       <input
-        className="bg-black/20 border border-white/30 backdrop-blur-md p-3 rounded-lg w-full max-w-md text-white placeholder-white/60"
+        className="bg-black/30 border border-white/20 backdrop-blur-md p-3 rounded-lg w-full max-w-md text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
         placeholder="Enter GitHub repo URL"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
@@ -47,31 +47,32 @@ export default function Home() {
 
       <button
         onClick={scan}
-        className="bg-indigo-500 hover:bg-indigo-600 mt-4 px-6 py-2 rounded-lg"
+        className="mt-4 px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-black font-semibold shadow-lg transition"
       >
-        Scan
+        🔍 Scan Repository
       </button>
 
-      {loading && <p className="mt-4">Scanning...</p>}
+      {loading && <p className="mt-4 text-blue-200 animate-pulse">Scanning...</p>}
 
-      <ul className="mt-6 w-full max-w-2xl space-y-3">
+      <ul className="mt-8 w-full max-w-2xl space-y-4">
         {results.map((r, i) => (
           <li
             key={i}
-            className="bg-white/10 backdrop-blur-lg p-4 rounded-lg shadow-md flex justify-between items-center"
+            className="bg-white/10 backdrop-blur-lg p-4 rounded-xl shadow-lg flex justify-between items-start text-sm"
           >
             <div>
               <a
                 href={`https://github.com/${url.replace("https://github.com/", "")}/blob/main/.github/workflows/${r.file}`}
-                className="underline text-blue-300"
+                className="underline text-cyan-300 hover:text-cyan-400 transition"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {r.file}
-              </a>{" "}- {r.issue}
+              </a>
+              <span className="block text-gray-200 mt-1">{r.issue}</span>
             </div>
             <button
-              className="bg-white/20 px-2 py-1 text-xs rounded hover:bg-white/30"
+              className="bg-cyan-500/20 px-2 py-1 text-xs rounded hover:bg-cyan-500/30 transition"
               onClick={() => showVulnInfo(r.issue)}
             >
               Why?
@@ -81,9 +82,9 @@ export default function Home() {
       </ul>
 
       {vulnInfo && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/10 text-white p-4 rounded-xl backdrop-blur-xl shadow-xl w-full max-w-sm">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/10 text-white p-4 rounded-2xl backdrop-blur-xl shadow-xl w-full max-w-sm border border-white/20">
           <p className="text-sm">{vulnInfo}</p>
-          <button onClick={() => setVulnInfo(null)} className="mt-2 text-xs underline">Close</button>
+          <button onClick={() => setVulnInfo(null)} className="mt-2 text-xs underline text-cyan-300">Close</button>
         </div>
       )}
 
@@ -98,14 +99,24 @@ export default function Home() {
             const data = await res.json();
             setPrUrl(data.pr_url || "");
           }}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-6 rounded-lg"
+          className="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-black px-4 py-2 mt-6 rounded-lg font-bold shadow-xl transition"
         >
-          Fix and PR
+          ⚒️ Fix & Create PR
         </button>
       )}
 
       {prUrl && (
-        <p className="mt-6">Pull Request: <a className="underline text-blue-400" href={prUrl} target="_blank" rel="noopener noreferrer">{prUrl}</a></p>
+        <p className="mt-6">
+          Pull Request:{" "}
+          <a
+            className="underline text-lime-300 hover:text-lime-400 transition"
+            href={prUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {prUrl}
+          </a>
+        </p>
       )}
     </div>
   );
