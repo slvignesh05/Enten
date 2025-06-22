@@ -96,4 +96,42 @@ export default function Home() {
       </ul>
 
       {vulnInfo && (
-        <di
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/10 text-white p-4 rounded-2xl backdrop-blur-xl shadow-xl w-full max-w-sm border border-white/20">
+          <p className="text-sm">{vulnInfo}</p>
+          <button onClick={() => setVulnInfo(null)} className="mt-2 text-xs underline text-cyan-300">Close</button>
+        </div>
+      )}
+
+      {results.length > 0 && (
+        <button
+          onClick={async () => {
+            const res = await fetch("https://enten-0vnu.onrender.com/fix", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ url }),
+            });
+            const data = await res.json();
+            setPrUrl(data.pr_url || "");
+          }}
+          className="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-black px-4 py-2 mt-6 rounded-lg font-bold shadow-xl transition"
+        >
+          ⚒️ Fix & Create PR
+        </button>
+      )}
+
+      {prUrl && (
+        <p className="mt-6">
+          Pull Request:{" "}
+          <a
+            className="underline text-lime-300 hover:text-lime-400 transition"
+            href={prUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {prUrl}
+          </a>
+        </p>
+      )}
+    </div>
+  );
+}
