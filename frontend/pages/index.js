@@ -44,8 +44,14 @@ export default function Home() {
       {/* Animated Blobs */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
         <div className="absolute w-96 h-96 bg-fuchsia-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob left-1/3" style={{ animationDelay: "2s" }}></div>
-        <div className="absolute w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000 top-1/2 left-2/3"></div>
+        <div
+          className="absolute w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob left-1/3"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob top-1/2 left-2/3"
+          style={{ animationDelay: "4s" }}
+        ></div>
       </div>
 
       <h1 className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg animate-fade-in">
