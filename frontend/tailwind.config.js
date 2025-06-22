@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       animation: {
         blob: "blob 7s infinite",
-        fadeIn: "fadeIn 1s ease-in forwards",
+        "fade-in": "fadeIn 1s ease-in forwards", // match class: animate-fade-in
       },
       keyframes: {
         blob: {
