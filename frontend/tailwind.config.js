@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        blob: "blob 5s infinite",
-        "fade-in": "fadeIn 1s ease-in forwards", // match class: animate-fade-in
+        blob: "blob 7s infinite",
+        fade: "fadeIn 1s ease-in forwards",
       },
       keyframes: {
         blob: {
