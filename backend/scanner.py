@@ -3,7 +3,11 @@ import requests
 import os
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
+
+HEADERS = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json"
+}
 
 def scan_workflows(repo_url):
     owner, repo = repo_url.strip("/").split("/")[-2:]
@@ -20,17 +24,18 @@ def scan_workflows(repo_url):
         if 'jobs' in parsed:
             for job_name, job in parsed['jobs'].items():
                 for step in job.get('steps', []):
-                    if isinstance(step, dict) and 'uses' in step:
-                        if '@' in step['uses'] and not step['uses'].split('@')[-1].startswith('sha256:'):
+                    if isinstance(step, dict):
+                        if 'uses' in step and '@' in step['uses']:
+                            if not step['uses'].split('@')[-1].startswith('sha256:'):
+                                issues.append({
+                                    'file': f['name'],
+                                    'job': job_name,
+                                    'issue': f"Action not pinned to commit: {step['uses']}"
+                                })
+                        if 'run' in step and 'curl' in step['run']:
                             issues.append({
                                 'file': f['name'],
                                 'job': job_name,
-                                'issue': f"Action not pinned to commit: {step['uses']}"
+                                'issue': "Usage of curl in run command without checksum verification"
                             })
-                    if 'run' in step and 'curl' in step['run']:
-                        issues.append({
-                            'file': f['name'],
-                            'job': job_name,
-                            'issue': "Usage of curl in run command without checksum verification"
-                        })
     return issues
